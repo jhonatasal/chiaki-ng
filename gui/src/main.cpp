@@ -38,8 +38,10 @@ int main(int argc, char *argv[]) { return real_main(argc, argv); }
 #endif
 
 #include <QCommandLineParser>
+#include <QLocale>
 #include <QMap>
 #include <QSurfaceFormat>
+#include <QTranslator>
 
 Q_DECLARE_METATYPE(ChiakiLogLevel)
 Q_DECLARE_METATYPE(ChiakiRegistEventType)
@@ -142,6 +144,10 @@ int real_main(int argc, char *argv[])
 	QtWebEngineQuick::initialize();
 #endif
 	QApplication app(argc, argv);
+
+	QTranslator translator;
+	if(translator.load(QLocale::system(), "chiaki", "_", ":/i18n"))
+		app.installTranslator(&translator);
 
 #ifdef Q_OS_MACOS
 	QGuiApplication::setWindowIcon(QIcon(":/icons/chiaking_macos.svg"));
